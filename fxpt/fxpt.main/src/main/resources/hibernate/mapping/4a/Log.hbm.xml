@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.Log" table="4a_log">
+	
+		<id name="id" type="java.lang.Long" > 
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		
+		<property name="handleTime" type="java.lang.String">
+			<column name="handleTime" />
+		</property>
+		
+		<property name="handlePro" type="java.lang.String">
+			<column name="handlePro" />
+		</property>
+		
+		<property name="handleOption" type="java.lang.String">
+			<column name="handleOption" />
+		</property>
+		
+		<property name="suferHandleOption" type="java.lang.String">
+			<column name="suferHandleOption" />
+		</property>
+		
+		<property name="status" type="java.lang.String">
+			<column name="status" />
+		</property>
+		
+		<property name="logInfo" type="java.lang.String"> 
+			<column name="logInfo" />
+		</property>
+		
+		<property name="handleOptionLocation" type="java.lang.String"> 
+			<column name="handleOptionLocation" />
+		</property>
+		
+		<property name="handleIP" type="java.lang.String"> 
+			<column name="handleIP" />
+		</property>
+		
+		<property name="erreInfo" type="java.lang.String"> 
+			<column name="erreInfo" />
+		</property>
+		
+	</class>
+</hibernate-mapping>

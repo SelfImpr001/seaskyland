@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.cntest.foura.domain">
+ 	<class name="URLResource" table="4a_urlresource">
+ 		<id name="pk" type="java.lang.Long">
+ 			<column name="res_id" />
+ 			<generator class="native" />
+ 		</id>
+ 		
+ 		<property name="name" type="java.lang.String">
+ 			<column name="res_name" length="16"/>
+ 		</property>
+ 		
+ 		<property name="url" type="java.lang.String">
+ 			<column name="res_url" length="200"/>
+ 		</property>
+ 		
+ 		<property name="uuid" type="java.lang.String" lazy="false" >
+ 			<column name="res_uuid"/>
+ 		</property>
+ 		
+ 		<property name="available" type="java.lang.Boolean">
+ 			<column name="res_available"/>
+ 		</property>
+ 		
+ 		<property name="type">
+ 			<column name="res_type" length="20"/>
+ 			<type name="org.hibernate.type.EnumType">
+ 				<param name="enumClass">com.cntest.foura.domain.URIType</param>
+ 				<param name="type">12</param>
+ 			</type>
+ 		</property>
+ 		
+ 		<property name="icon" type="java.lang.String">
+ 			<column name="res_icon" length="200"/>
+ 		</property>
+ 		
+ 		<property name="reorder" type="java.lang.Integer">
+ 			<column name="res_reorder" />
+ 		</property>
+ 		
+ 		<property name="entry" type="java.lang.String">
+ 			<column name="res_entry" />
+ 		</property>
+ 		
+ 		<property name="gradeids" type="java.lang.String">
+ 			<column name="res_grade" />
+ 		</property>
+ 		
+ 		<property name="examtypeids" type="java.lang.String">
+ 			<column name="res_examtype" />
+ 		</property>
+ 		
+ 		<property name="remarks" type="java.lang.String">
+ 			<column name="res_remarks" length="255" />
+ 		</property>
+ 		
+ 		<many-to-one name="parent" class="URLResource">
+ 			<column name="res_pid" />
+ 		</many-to-one>
+ 		
+ 		<!--自身映射 一对多关系  childParent(外建) -->
+ 		<set name="children" table="4a_urlresource" cascade="all" order-by="reorder asc">
+ 			<key column="res_pid" />
+ 			<one-to-many class="URLResource"  />
+ 		</set>
+<!--  		权限可分配给多个角色  关系由角色维护-->
+ 		<set name="roles" table="4a_role_resource" inverse="true" cascade="all">
+ 			<key column="res_id" />
+ 			<one-to-many class="RoleResource" />
+ 		</set>
+ 	</class>
+ </hibernate-mapping>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note>  
+	<languageType>语种+模式</languageType>
+	<testpaperName>科目</testpaperName>
+	<provinceName>地州</provinceName>
+	<titletype>题型</titletype>
+	<fullscore>满分</fullscore>
+	<avgs>平均分</avgs>
+	<stds>标准差</stds>
+	<dfl>难度</dfl>
+	<dd>区分度</dd>
+	<rd>信度</rd>
+</note>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT
+				  i.id,
+				  i.itemNo,
+				  i.bigTitleNo,
+				  i.fullScore,
+				  i.rightOptioin,
+				  i.knowledge,
+				  i.knowledgeContent,
+				  i.ability,
+				  i.titleType,
+				  i.forecastDifficulty,
+				  i.optionType,
+				  i.subjectId,
+				  i.testPaperId,
+				  i.ischoice,
+				  i.choiceGroup,
+				  i.choiceModule,
+				  i.choiceNumber,
+				  i.choiceFullScore,
+				  i.sortNum,
+				  t.examId
+				FROM tb_item i
+				INNER JOIN tb_testpaper t ON i.testPaperId=t.id
+				WHERE t.examId=${exam.id} 
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_dim_item" />
+		<mapField from="id" to="id" />
+		<mapField from="itemNo" to="itemNo" />
+		<mapField from="bigTitleNo" to="bigTitleNo" />
+		<mapField from="fullScore" to="fullScore" />
+		<mapField from="rightOptioin" to="rightOptioin" />
+		<mapField from="knowledge" to="knowledge" />
+		<mapField from="knowledgeContent" to="knowledgeContent" />
+		<mapField from="ability" to="ability" />
+		<mapField from="titleType" to="titleType" />
+		<mapField from="forecastDifficulty" to="forecastDifficulty" />
+		<mapField from="optionType" to="optionType" />
+		<mapField from="subjectId" to="subjectId" />
+		<mapField from="testPaperId" to="testPaperId" />
+		<mapField from="ischoice" to="ischoice" />
+		<mapField from="choiceGroup" to="choiceGroup" />
+		<mapField from="choiceModule" to="choiceModule" />
+		<mapField from="choiceNumber" to="choiceNumber" />
+		<mapField from="choiceFullScore" to="choiceFullScore" />
+		<mapField from="sortNum" to="sortNum" />
+		<mapField from="examId" to="examId" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

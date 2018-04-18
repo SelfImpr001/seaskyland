@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ 	<class name="com.cntest.remote.domain.NanShanData" table="nanshan_data">
+ 		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+ 		<property name="uid" type="java.lang.String">
+ 			<column name="uid" length="64"/>
+ 		</property>
+ 		<property name="loginId" type="java.lang.String">
+ 			<column name="loginId" length="50"/>
+ 		</property>
+ 		<property name="nickName" type="java.lang.String">
+ 			<column name="nickName"/>
+ 		</property>
+ 		<property name="userName" type="java.lang.String">
+ 			<column name="userName" length="50"/>
+ 		</property>
+ 		<property name="userType" type="java.lang.String">
+ 			<column name="userType" length="50"/>
+ 		</property>
+ 		<property name="lockStatus" type="java.lang.String">
+ 			<column name="lockStatus" length="50"/>
+ 		</property>
+ 		<property name="approvalStatus" type="java.lang.String">
+ 			<column name="approvalStatus" length="50"/>
+ 		</property>
+ 		<property name="sex" type="java.lang.String">
+ 			<column name="sex" length="50"/>
+ 		</property>
+ 		<property name="mobile" type="java.lang.String">
+ 			<column name="mobile" length="50"/>
+ 		</property>
+ 		<property name="email" type="java.lang.String">
+ 			<column name="email" length="50"/>
+ 		</property>
+ 		<property name="certificateNo" type="java.lang.String">
+ 			<column name="certificateNo" length="50"/>
+ 		</property>
+ 		<property name="nation" type="java.lang.String">
+ 			<column name="nation" length="50"/>
+ 		</property>
+ 		<property name="orgCode" type="java.lang.String">
+ 			<column name="orgCode" length="50"/>
+ 		</property>
+ 		<property name="nativePlace" type="java.lang.String">
+ 			<column name="nativePlace" length="50"/>
+ 		</property>
+ 		<property name="preOrgID" type="java.lang.String">
+ 			<column name="preOrgID" length="50"/>
+ 		</property>
+ 		<property name="birthday" type="java.lang.String">
+ 			<column name="birthday" length="50"/>
+ 		</property>
+ 		<property name="remark" type="java.lang.String">
+ 			<column name="remark" length="50"/>
+ 		</property>
+ 		<property name="addr" type="java.lang.String">
+ 			<column name="addr" length="50"/>
+ 		</property>
+ 		<property name="classCode" type="java.lang.String">
+ 			<column name="classCode" length="50"/>
+ 		</property>
+ 		<property name="level" type="java.lang.String">
+ 			<column name="level" length="50"/>
+ 		</property>
+ 		<property name="grade" type="java.lang.String">
+ 			<column name="grade" length="50"/>
+ 		</property>
+ 		<property name="stuNumberID" type="java.lang.String">
+ 			<column name="stuNumberID" length="50"/>
+ 		</property>
+ 		<property name="course" type="java.lang.String">
+ 			<column name="course" length="50"/>
+ 		</property>
+ 		<property name="postCode" type="java.lang.String">
+ 			<column name="postCode" length="50"/>
+ 		</property>
+ 		<property name="roleId" type="java.lang.String">
+ 			<column name="roleId" length="50"/>
+ 		</property>
+ 		
+ 		<!-- <property name="userid" type=java.lang.Long>
+ 			<column name="user_id"/>
+ 		</property> -->
+ 		<many-to-one name="user" column="user_id" fetch="join" lazy="false" not-null="true" />
+ 		
+ 		<property name="status" type="java.lang.Integer">
+ 			<column name="status" length="1"/>
+ 		</property>
+ 	</class>
+ </hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.cntest.foura.domain">
+ 	<class name="UserAction" table="4a_userAction" >
+ 		<id name="pk" type="java.lang.Long">
+ 			<column name="uaction_id" />
+ 			<generator class="increment" />
+ 		</id>
+ 		
+ 		<property name="actionDate" type="java.util.Date">
+ 			<column name="uaction_actionDate" length="16"/>
+ 		</property>
+ 		
+ 		<property name="action" type="java.lang.String">
+ 			<column name="uaction_action" length="200"/>
+ 		</property>
+ 		
+ 		<many-to-one name="user" class="com.cntest.foura.domain.User" unique="true">
+ 			<column name="user_id" />
+ 		</many-to-one>
+ 	</class>
+ </hibernate-mapping>

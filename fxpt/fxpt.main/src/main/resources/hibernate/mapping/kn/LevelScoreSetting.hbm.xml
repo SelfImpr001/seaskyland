@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.LeveScoreSetting" table="kn_levelscoresetting">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="wl" type="java.lang.Integer">
+			<column name="wl" />
+		</property>
+		<property name="beginScore" type="java.lang.Double">
+			<column name="beginScore" />
+		</property>
+		<property name="endScore" type="java.lang.Double">
+			<column name="endScore" />
+		</property>
+		<property name="levelScore" type="java.lang.Double">
+			<column name="levelScore" />
+		</property>
+		<property name="levelName" type="java.lang.String">
+			<column name="levelName" />
+		</property>
+
+		<many-to-one name="exam" column="examId" fetch="join"
+			lazy="false" />
+		<many-to-one name="subject" column="subjectId" fetch="join"
+			lazy="false" />
+		<many-to-one name="analysisTestpaper" column="analysisTestPaperId"
+			fetch="join" lazy="false" />
+	</class>
+</hibernate-mapping>

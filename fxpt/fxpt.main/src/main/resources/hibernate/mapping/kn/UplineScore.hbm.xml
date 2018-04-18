@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.UplineScore" table="kn_uplineScore">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name"  />
+		</property>
+		<property name="wlType" type="java.lang.Integer">
+			<column name="wlType" />
+		</property>
+		
+		<property name="divideScore" type="java.lang.Double" >
+			<column name="divideScore"  default="0" />
+		</property>
+		
+		<property name="divideScale" type="java.lang.Double" >
+			<column name="divideScale" default="0" />
+		</property>
+		
+		<property name="level" type="java.lang.Integer">
+			<column name="level"  />
+		</property>
+		
+		<property name="scoreType" type="java.lang.Integer">
+			<column name="scoreType"  />
+		</property>
+		
+		<property name="ratio" type="java.lang.Double" >
+			<column name="ratio"  default="0"/>
+		</property>
+		
+		<property name="upScore" type="java.lang.Double" >
+			<column name="upScore"  default="0"/>
+		</property>
+		
+		<property name="downScore" type="java.lang.Double" >
+			<column name="downScore"  default="0"/>
+		</property>
+		<many-to-one name="org" column="orgId" fetch="join" lazy="false" />
+		<many-to-one name="exam" column="examId" fetch="join" lazy="false" />
+		<many-to-one name="subject" column="subjectId" fetch="join" lazy="false" />
+	</class>
+</hibernate-mapping>

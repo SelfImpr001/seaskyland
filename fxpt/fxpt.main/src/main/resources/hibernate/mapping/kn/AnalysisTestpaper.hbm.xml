@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.AnalysisTestpaper" table="dw_dim_analysis_testpaper">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="composite" type="java.lang.Boolean">
+			<column name="isComposite" />
+		</property>
+		<property name="fullScore" type="java.lang.Double">
+			<column name="fullScore" />
+		</property>
+		<property name="kgScore" type="java.lang.Double">
+			<column name="kgScore" />
+		</property>
+		<property name="zgScore" type="java.lang.Double">
+			<column name="zgScore" />
+		</property>
+		<property name="paperType" type="java.lang.Integer">
+			<column name="paperType" />
+		</property>
+		<property name="splitSubject" type="java.lang.Boolean">
+			<column name="isSplitSubject" />
+		</property>
+		<many-to-one name="exam" column="examId" fetch="join" />
+		<many-to-one name="subject" column="subjectId" fetch="join" />
+		<many-to-one name="testPaper" column="testPaperId" fetch="join" />
+		<many-to-one name="combinationSubject" column="combinationSubjectId"
+			fetch="join" unique="true" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note>  
+	<languageType>语种+模式</languageType>
+	<testpaperName>科目</testpaperName>
+	<provinceName>单位</provinceName>
+	<name>知识点</name>
+	<itemno>题号</itemno>
+	<titletype>题型</titletype>
+	<fullscore>满分</fullscore>
+	<avgs>平均分</avgs>
+	<stds>标准差</stds>
+	<dd>区分度</dd>
+	<forecastDifficulty>预估难度</forecastDifficulty>
+	<difficulty>实测难度</difficulty>
+</note>

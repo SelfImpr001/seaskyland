@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.UserExam" table="kn_user_exam">
+		<id name="id" type="java.lang.Long">
+			<column name="ue_id" />
+			<generator class="increment" />
+		</id>
+		<property name="userId" type="java.lang.Long">
+			<column name="user_id" length="20" />
+		</property>
+		<property name="examId" type="java.lang.Long">
+			<column name="exam_id" length="20" />
+		</property>
+		<property name="order" type="java.lang.Integer">
+			<column name="ue_order" length="20" />
+		</property>
+		<property name="extendproperty" type="java.lang.String">
+			<column name="ue_extendproperty" length="50" />
+		</property>
+		<property name="extendproperty1" type="java.lang.String">
+			<column name="ue_extendproperty1" length="50" />
+		</property>
+		<property name="extendproperty2" type="java.lang.String">
+			<column name="ue_extendproperty2" length="50" />
+		</property>
+		
+	</class>
+</hibernate-mapping>

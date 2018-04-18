@@ -1,0 +1,12 @@
+RingBuffer：环形的一个数据结构，对象初始化时，会使用事件Event进行填充。Buffer的大小必须是2的幂次方，方便移位操作。
+Event：无指定具体接口，用户自己实现，可以携带任何业务数据。
+EventFactory：产生事件Event的工厂，由用户自己实现。
+EventTranslator：事件发布的回调接口，由用户实现，负责将业务参数设置到事件中。
+Sequencer：序列产生器，也是协调生产者和消费者及实现高并发的核心。有MultiProducerSequencer 和 SingleProducerSequencer两个实现类。
+SequenceBarrier：拥有RingBuffer的发布事件Sequence引用和消费者依赖的Sequence引用。决定消费者消费可消费的Sequence。
+EventHandler：事件的处理者，由用户自己实现。
+EventProcessor：事件的处理器，单独在一个线程中运行。
+WorkHandler：事件的处理者，由用户自己实现。
+WorkProcessor：事件的处理器，单独在一个线程中运行。
+WorkerPool：一组WorkProcessor的处理。
+WaitStrategy：在消费者比生产者快时，消费者处理器的等待策略。

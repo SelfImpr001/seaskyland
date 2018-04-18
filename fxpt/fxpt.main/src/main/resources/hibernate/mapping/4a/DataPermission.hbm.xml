@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+ <hibernate-mapping>
+	<class name="com.cntest.foura.domain.DataPermission" table="4a_data_permission">
+ 		<id name="pk" type="java.lang.Long">
+ 			<column name="data_permission_id" />
+ 			<generator class="native" />
+ 		</id>
+ 		<property name="name" type="java.lang.String">
+ 			<column name="permission_name" not-null="true" />
+ 		</property>
+ 		<property name="paramName" type="java.lang.String">
+ 			<column name="outer_param_name" not-null="true" />
+ 		</property>
+ 		<property name="table" type="java.lang.String">
+ 			<column name="data_table" not-null="true" />
+ 		</property> 
+ 		<property name="paramKeyField" type="java.lang.String">
+ 			<column name="pk_field" not-null="true" />
+ 		</property>  		 		
+ 		<property name="source" type="java.lang.String">
+ 			<column name="datasource" not-null="true" />
+ 		</property> 		
+ 		<property name="paramNamefield" type="java.lang.String">
+ 			<column name="name_key " not-null="true" />
+ 		</property>
+ 		<property name="paramValueField" type="java.lang.String">
+ 			<column name="value_key " not-null="true" />
+ 		</property>
+ 		<property name="parentRefKey" type="java.lang.String">
+ 			<column name="parent_ref_key" not-null="false" />
+ 		</property>
+	
+ 		<property name="status" type="java.lang.Integer">
+ 			<column name="permission_status "  />
+ 		</property> 		
+ 		<many-to-one name="parent" class="com.cntest.foura.domain.DataPermission" >
+ 			<column name="parent_id" />
+ 		</many-to-one>	 		
+ 	</class> 	
+ </hibernate-mapping>

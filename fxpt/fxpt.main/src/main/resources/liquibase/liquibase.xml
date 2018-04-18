@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+      <include file="classpath:liquibase/changLog_one.xml"/>
+      <include file="classpath:liquibase/changLog_two.xml"/>
+      <!-- 引用storedProcedure下的所有文件 存储过程存放地址 -->
+   <!--   <includeAll path="classpath:liquibase/storedProcedure/"/> -->
+</databaseChangeLog>

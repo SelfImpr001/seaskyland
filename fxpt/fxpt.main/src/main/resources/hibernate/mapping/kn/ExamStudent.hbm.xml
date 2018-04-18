@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ExamStudent" table="dw_examstudent_fact">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="studentId" type="java.lang.String">
+			<column name="studentId" length="30" />
+		</property>
+		<property name="name" type="java.lang.String">
+			<column name="name" length="30" />
+		</property>
+		<property name="zkzh" type="java.lang.String">
+			<column name="zkzh" length="30" />
+		</property>
+		<property name="gender" type="java.lang.Integer">
+			<column name="gender" />
+		</property>
+		<property name="domicile" type="java.lang.String">
+			<column name="domicile" />
+		</property>
+		<property name="nation" type="java.lang.String">
+			<column name="nation" />
+		</property>
+		<property name="learLanguage" type="java.lang.String">
+			<column name="learLanguage" />
+		</property>
+		<property name="wl" type="java.lang.Integer">
+			<column name="wl" />
+		</property>
+		<property name="past" type="java.lang.Boolean">
+			<column name="isPast" />
+		</property>
+		<property name="transient" type="java.lang.Boolean">
+			<column name="isTransient" />
+		</property>
+		<property name="studentType" type="java.lang.String">
+			<column name="studentType" />
+		</property>
+		<property name="languagePattern" type="java.lang.String">
+			<column name="languagePattern" />
+		</property>
+		<property name="languageType" type="java.lang.String">
+			<column name="languageType" />
+		</property>
+		<property name="area" type="java.lang.String">
+			<column name="area" />
+		</property>
+		<many-to-one name="exam" column="examId" fetch="join" />
+		<many-to-one name="clazz" column="classId" fetch="join" />
+		<many-to-one name="school" column="schoolId" fetch="join"
+			lazy="false" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.EducationSurvey" table="as_target">
+		<id name="pk" type="java.lang.Long">
+			<column name="as_id" />
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="as_name" length="16" />
+		</property>
+		<property name="code" type="java.lang.String">
+			<column name="as_code" length="16" />
+		</property>
+		<property name="searchPoint" type="java.lang.String">
+			<column name="searchpoint" length="5000" />
+		</property>
+		<property name="type" type="java.lang.Integer">
+			<column name="as_type" length="1" />
+		</property>
+		<property name="available" type="java.lang.Boolean">
+			<column name="available" not-null="false" length="1" />
+		</property>
+		<many-to-one name="parent" column="p_id"
+			class="com.cntest.fxpt.domain.EducationSurvey" fetch="join" />
+		<property name="ex1" type="java.lang.String">
+			<column name="externalproperty1" length="50" />
+		</property>
+		<property name="ex2" type="java.lang.String">
+			<column name="externalproperty2" length="50" />
+		</property>
+		<property name="ex3" type="java.lang.String">
+			<column name="externalproperty3" length="50" />
+		</property>
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.AnalysisTheme" table="kn_analysistheme">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="type" type="java.lang.Integer">
+			<column name="type" />
+		</property>
+		<property name="analysisThemeLevel" type="java.lang.Integer">
+			<column name="analysisThemeLevel" />
+		</property>
+		<property name="sql" type="java.lang.String">
+			<column name="sql" />
+		</property>
+		<property name="available" type="java.lang.Boolean">
+			<column name="available" />
+		</property>
+
+		<bag name="analysisDataClassifyPlans" inverse="true" cascade="all"
+			lazy="false">
+			<key column="analysisThemeId" />
+			<one-to-many class="com.cntest.fxpt.domain.AnalysisDataClassifyPlan" />
+		</bag>
+		<bag name="analysisResultSaveToTables" inverse="true" cascade="all"
+			lazy="false">
+			<key column="analysisThemeId" />
+			<one-to-many class="com.cntest.fxpt.domain.AnalysisResultSaveToTable" />
+		</bag>
+	</class>
+</hibernate-mapping>

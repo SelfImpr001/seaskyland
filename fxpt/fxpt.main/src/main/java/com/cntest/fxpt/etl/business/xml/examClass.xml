@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+	<values>
+		<value name="classMaxId" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT IFNULL(MAX(cId),0) FROM tb_dim_examclass
+					]]>
+			</sql>
+		</value>
+		<value name="examId" value="exam.id" />
+
+		<keyValue name="schoolKeyValues" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT schoolCode,schoolId FROM dw_dim_school
+					]]>
+			</sql>
+			<keyFileds>
+				<filed value="schoolCode" />
+			</keyFileds>
+			<valueFiled value="schoolId" />
+		</keyValue>
+	</values>
+
+
+
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT DISTINCT schoolCode,classCode,className,wl,classType FROM tb_examstudent WHERE examId=${exam.id}
+			]]>
+		</sql>
+	</step>
+
+	<step name="TransformStep" type="TransformStep" description="转换数据">
+		<parameters>
+			<parameter name="schoolIds" refValue="schoolKeyValues" />
+		</parameters>
+		<LookUpAdd>
+			<append lookUpDataset="schoolIds" dataFieldName="schoolCode"
+				newFieldName="schoolId" />
+		</LookUpAdd>
+	</step>
+
+
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_dim_examclass" />
+		<mapField from="schoolId" to="schoolId" />
+		<mapField from="schoolCode" to="schoolCode" />
+		<mapField from="classCode" to="classCode" />
+		<mapField from="className" to="className" />
+		<mapField from="wl" to="wl" />
+		<mapField from="classType" to="classType" />
+		<finalData name="cId" autoIncrement="true" refValue="classMaxId" />
+		<finalData name="examId" autoIncrement="false" refValue="examId" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="TransformStep" />
+	</hop>
+	<hop ref="TransformStep">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

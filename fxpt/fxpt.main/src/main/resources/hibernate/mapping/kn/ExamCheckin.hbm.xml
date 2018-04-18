@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ExamCheckin" table="kn_exam_checkin">
+		<id name="pk" type="java.lang.Long">
+			<column name="exam_checkin_id" />
+			<generator class="increment" />
+		</id>
+		<property name="checkedTotal" type="java.lang.Integer">
+			<column name="checkedTotal" />
+		</property>
+		<property name="failureTotal" type="java.lang.Integer">
+			<column name="failureTotal" />
+		</property>		
+		<property name="examineeTotal" type="java.lang.Integer">
+			<column name="examineeTotal" />
+		</property>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" />
+		</property>
+		<property name="begain" type="java.util.Date">
+			<column name="begainDate" />
+		</property>
+		<property name="end" type="java.util.Date">
+			<column name="endDate" />
+		</property>	
+		
+		<many-to-one name="exam" column="examId" fetch="join" unique="true"  />
+		<bag name="specs" inverse="true" lazy="true" cascade="all">
+			<key column="exam_checkin_id" />
+			<one-to-many class="com.cntest.fxpt.domain.ExamCheckinSpec" />
+		</bag>
+		<!--
+		<bag name="examinees" inverse="true" lazy="true" cascade="delete">
+			<key column="exam_checkin_id" />
+			<one-to-many class="com.cntest.fxpt.domain.ExamineeCheckin" />
+		</bag>
+		-->		
+	</class>
+</hibernate-mapping>

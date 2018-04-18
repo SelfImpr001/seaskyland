@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.Item" table="dw_dim_item">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="itemNo" type="java.lang.String">
+			<column name="itemNo" />
+		</property>
+		<property name="bigTitleNo" type="java.lang.String">
+			<column name="bigTitleNo" />
+		</property>
+		<property name="fullScore" type="java.lang.Double">
+			<column name="fullScore" />
+		</property>
+		<property name="allOptions" type="java.lang.String">
+			<column name="allOptions" />
+		</property>
+		<property name="rightOptioin" type="java.lang.String">
+			<column name="rightOptioin" />
+		</property>
+		<property name="knowledge" type="java.lang.String">
+			<column name="knowledge" />
+		</property>
+		<property name="knowledgeContent" type="java.lang.String">
+			<column name="knowledgeContent" />
+		</property>
+		<property name="ability" type="java.lang.String">
+			<column name="ability" />
+		</property>
+		<property name="titleType" type="java.lang.String">
+			<column name="titleType" />
+		</property>
+		<property name="forecastDifficulty" type="java.lang.Double">
+			<column name="forecastDifficulty" />
+		</property>
+		<property name="optionType" type="java.lang.Integer">
+			<column name="optionType" />
+		</property>
+		<property name="cjField" type="java.lang.String">
+			<column name="cjField" />
+		</property>
+		<property name="paperType" type="java.lang.String">
+			<column name="paperType" />
+		</property>
+		<property name="paper" type="java.lang.String">
+			<column name="paper" />
+		</property>
+		<property name="choice" type="java.lang.Boolean">
+			<column name="ischoice" />
+		</property>
+		<property name="choiceGroup" type="java.lang.String">
+			<column name="choiceGroup" />
+		</property>
+		<property name="choiceModule" type="java.lang.String">
+			<column name="choiceModule" />
+		</property>
+		<property name="choiceNumber" type="java.lang.String">
+			<column name="choiceNumber" />
+		</property>
+		<property name="choiceFullScore" type="java.lang.Double">
+			<column name="choiceFullScore" />
+		</property>
+		<property name="sortNum" type="java.lang.Integer">
+			<column name="sortNum" />
+		</property>
+		<many-to-one name="testPaper" column="testPaperId" fetch="join"
+			lazy="false" />
+		<many-to-one name="subject" column="subjectId" fetch="join"
+			lazy="false" not-null="true" />
+		<many-to-one name="exam" column="examId" fetch="join"
+			lazy="false" not-null="true" />
+		<many-to-one name="analysisTestpaper" column="analysisTestpaperId"
+			fetch="join" lazy="false" not-null="true" />
+	</class>
+</hibernate-mapping>

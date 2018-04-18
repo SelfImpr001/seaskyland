@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/jee 
+            http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:settings.properties</value>
+				<value>classpath:properties/resources.properties</value>
+				<value>classpath:properties/shiro-client-default.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- cacheManager, 指定ehcache.xml的位置 -->
+	<bean id="cacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache.xml</value>
+		</property>
+		<!-- 由于其框架也使用了Ehcache, 保证各方都使用同一个缓存管理器 -->
+		<property name="shared" value="true" />
+	</bean>
+	
+	
+	
+	<bean id="sqlQueryCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager"/>
+		<property name="cacheName" value="sqlQueryCache"/>
+	</bean>
+	
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"></bean>
+
+	<bean id="ds" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="jdbc:mysql://${JDBC_IP}:${JDBC_PORT}/${JDBC_DATABASE}?${JDBC_PARAM}" />
+		<property name="username" value="${JDBC_USERNAME}" />
+		<property name="password" value="${JDBC_PASSWORD}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="200" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="100" />
+
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat" />
+		
+		<property name="removeAbandoned" value="false" />
+		<property name="removeAbandonedTimeout" value="1800" />
+		<property name="logAbandoned" value="true" />
+		
+		
+	</bean>
+<!-- liquibase 使用配置  start—————————————————————————————————————————————————————————————————————— -->
+   <!-- <bean id="pvaLiquibase" class="liquibase.integration.spring.SpringLiquibase">  
+        <property name="dataSource"> 
+       	 <ref bean="ds"/>
+         </property>
+        <property name="changeLog" value="classpath:liquibase/liquibase.xml"/>  
+</bean>  
+ liquibase 使用配置  over—————————————————————————————————————————————————————————————————————— -->
+
+
+	<bean id="jdbcTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="ds" />
+		</property>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg index="0">
+			<ref bean="ds" />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="log" class="com.cntest.fxpt.util.LogUtil">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	
+	
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="ds" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+			
+				<prop key="hibernate.connection.release_mode">after_transaction</prop>
+				
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.max_fetch_depth">10</prop>
+				<prop key="hibernate.autoReconnect">true</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+				</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext
+				</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path"></prop>
+			</props>
+		</property>
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:hibernate/mapping/4a/</value>
+				<value>classpath:hibernate/mapping/dw/</value>
+				<value>classpath:hibernate/mapping/kn/</value>
+				<value>classpath:hibernate/mapping/birt/</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dynamicHibernateTemplate" class="com.cntest.common.repository.DynamicHibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="fileNames">
+			<list>
+				<value>classpath:hibernate/query/query-*.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<bean id="springContext" class="com.cntest.util.SpringContext" />
+
+	<import resource="applicationContext-4a.xml" />
+	<import resource="applicationContext-app.xml" />
+
+	<import resource="applicationContext-shiro.xml" />
+	<import resource="applicationContext-validation.xml" />
+	<import resource="applicationContext-event.xml" />
+	<!--<import resource="applicationContext-app.xml" /> <import resource="applicationContext-dw.xml" 
+		/> <import resource="applicationContext-kn.xml" /> -->
+</beans>

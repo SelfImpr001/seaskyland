@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.FtpSetting" table="kn_ftp">
+		<id name="id" type="java.lang.Integer">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="url" type="java.lang.String">
+			<column name="url" length="50" />
+		</property>
+		<property name="port" type="java.lang.Integer">
+			<column name="port" />
+		</property>
+		<property name="username" type="java.lang.String">
+			<column name="username" length="50" />
+		</property>
+		<property name="password" type="java.lang.String">
+			<column name="password" length="50" />
+		</property>
+		<property name="path" type="java.lang.String">
+			<column name="path" length="50" />
+		</property>
+		<property name="des" type="java.lang.String">
+			<column name="des" length="50" />
+		</property>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" />
+		</property>
+	</class>
+</hibernate-mapping>

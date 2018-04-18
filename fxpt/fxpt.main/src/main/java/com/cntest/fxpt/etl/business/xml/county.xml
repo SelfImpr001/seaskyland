@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+	<values>
+		<value name="countyNewID" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT IFNULL(MAX(id),0) FROM tb_dim_county
+					]]>
+			</sql>
+		</value>
+	</values>
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT  cc.code CODE,
+					cc.name NAME,
+					c.code cityCode,
+					c.name cityName,
+					p.code provinceCode,
+					p.NAME provinceName
+				FROM tb_education cc
+				INNER JOIN tb_education c ON cc.parentCode=c.code
+				INNER JOIN tb_education p ON c.parentCode=p.code
+				WHERE cc.type=3 AND cc.isSyn=0
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_dim_county" />
+		<mapField from="CODE" to="CODE" />
+		<mapField from="NAME" to="NAME" />
+		<mapField from="cityCode" to="cityCode" />
+		<mapField from="cityName" to="cityName" />
+		<mapField from="provinceCode" to="provinceCode" />
+		<mapField from="provinceName" to="provinceName" />
+		<finalData name="id" autoIncrement="true" refValue="countyNewID" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="DBLoad"/>
+	</hop>
+</etl>

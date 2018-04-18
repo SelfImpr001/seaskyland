@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ExamClass" table="dw_dim_class">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="code" type="java.lang.String">
+			<column name="code" />
+		</property>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="wl" type="java.lang.Integer">
+			<column name="wl" />
+		</property>
+		<property name="classType" type="java.lang.String">
+			<column name="classType" />
+		</property>
+		<property name="schoolCode" type="java.lang.String">
+			<column name="schoolCode" />
+		</property>
+		<property name="schoolName" type="java.lang.String">
+			<column name="schoolName" />
+		</property>
+		<many-to-one name="exam" column="examId" fetch="join" />
+	</class>
+</hibernate-mapping>

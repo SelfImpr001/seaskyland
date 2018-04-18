@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note>
+	<languageType>语种+模式</languageType>
+	<testpaperName>科目</testpaperName>
+	<dz>地州</dz>
+	<provinceName>区县</provinceName>
+	<skrs>人数</skrs>
+	<yxrs>优秀人数</yxrs>
+	<yxl>优秀率</yxl>
+	<lhrs>良好人数</lhrs>
+	<lhl>良好率</lhl>
+	<jgrs>及格人数</jgrs>
+	<jgl>及格率</jgl>
+	<jbhgrs>基本合格人数</jbhgrs>
+	<jbhgl>基本合格率</jbhgl>
+	<dfrs>低分人数</dfrs>
+	<dfl>低分率</dfl>
+	<avgs>平均分</avgs>
+	<stds>标准差</stds>
+	<cyxs>差异系数</cyxs>
+	<maxs>最高分</maxs>
+	<mins>最低分</mins>
+	<qj>全距</qj>
+	<medians>中数</medians>
+	<modes>众数</modes>
+	<kurtosis>峰度</kurtosis>
+	<skewness>偏度</skewness>
+	<quartile25>前25%</quartile25>
+	<quartile50>前50%</quartile50>
+	<quartile75>前75%</quartile75>
+</note>

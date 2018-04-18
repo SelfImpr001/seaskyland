@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping >
+ 	<class name="com.cntest.foura.domain.Identity" table="4a_identity" >
+ 		<id name="pk" type="java.lang.Long">
+ 			<column name="iden_id" />
+ 			<generator class="native" />
+ 		</id>
+ 		
+ 		<property name="name" type="java.lang.String">
+ 			<column name="iden_name" length="16"/>
+ 		</property>
+ 		
+ 		<property name="number" type="java.lang.Integer">
+ 			<column name="iden_number"/>
+ 		</property>
+ 		
+ 		<property name="type" type="java.lang.String">
+ 			<column name="iden_type" length="16"/>
+ 		</property>
+ 		
+ 		<property name="effictiveTimeFrom" type="java.util.Date">
+ 			<column name="iden_effictiveTimeFrom" />
+ 		</property>
+ 		
+ 		<property name="effictiveTimeTo" type="java.util.Date">
+ 			<column name="iden_effictiveTimeTo" />
+ 		</property>
+ 		
+ 		<property name="issuer" type="java.lang.String">
+ 			<column name="iden_issuer" length="20"/>
+ 		</property>
+ 		
+<!--  		<many-to-one name="owner" class="com.cntest.foura.domain.UserInfo"> -->
+<!--  			<column name="uinfo_id" /> -->
+<!--  		</many-to-one> -->
+ 	</class>
+ </hibernate-mapping>

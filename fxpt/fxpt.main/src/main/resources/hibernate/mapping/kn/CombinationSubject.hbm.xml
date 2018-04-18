@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.CombinationSubject" table="kn_combinationSubject">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="paperType" type="java.lang.Integer">
+			<column name="paperType" />
+		</property>
+		<property name="sysCreate" type="java.lang.Boolean">
+			<column name="isSysCreate" />
+		</property>
+		<property name="analysisTestPaperRule" type="java.lang.String">
+			<column name="analysisTestPaperRule" />
+		</property>
+		<many-to-one name="exam" column="examId" fetch="join" />
+
+		<bag name="childTestPaper" inverse="true" cascade="all" lazy="false">
+			<key column="combinationSubjectId" />
+			<one-to-many class="com.cntest.fxpt.domain.CombinationSubjectXTestPaper" />
+		</bag>
+		<bag name="combinationSubjectCalculateRules" inverse="true"
+			cascade="all" lazy="false">
+			<key column="combinationSubjectId" />
+			<one-to-many class="com.cntest.fxpt.domain.CombinationSubjectCalculateRule" />
+		</bag>
+	</class>
+</hibernate-mapping>

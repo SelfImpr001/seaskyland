@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+	<values>
+		<value name="schoolId" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT IFNULL(MAX(schoolId),0) FROM dw_dim_school
+					]]>
+			</sql>
+		</value>
+	</values>
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT s.code schoolCode,
+						s.NAME schoolName,
+						s.schoolType schoolType,
+						cc.code countyCode,
+						cc.NAME countyName,
+						c.code cityCode,
+						c.NAME cityName,
+						p.code provinceCode,
+						p.NAME provinceName
+				FROM tb_school s 
+				INNER JOIN tb_education cc ON s.educationCode=cc.code
+				INNER JOIN tb_education c ON cc.parentCode=c.code
+				INNER JOIN tb_education p ON c.parentCode=p.code
+				WHERE s.isSyn=0
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="dw_dim_school" />
+		<mapField from="schoolCode" to="schoolCode" />
+		<mapField from="schoolName" to="schoolName" />
+		<mapField from="schoolType" to="schoolType" />
+		<mapField from="countyCode" to="countyCode" />
+		<mapField from="countyName" to="countyName" />
+		<mapField from="cityCode" to="cityCode" />
+		<mapField from="cityName" to="cityName" />
+		<mapField from="provinceCode" to="provinceCode" />
+		<mapField from="provinceName" to="provinceName" />
+		<finalData name="schoolId" autoIncrement="true" refValue="schoolId" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

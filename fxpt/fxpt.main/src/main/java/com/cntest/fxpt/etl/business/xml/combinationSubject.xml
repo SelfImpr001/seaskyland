@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT cs.id id,
+					cs.examId examId,
+					cs.NAME name,
+					cs.paperType paperType,
+					SUM(tp.fullScore) fullScore,
+					SUM(tp.kgScore) kgScore,
+					SUM(tp.zgScore) zgScore
+				FROM tb_combinationsubject cs
+				INNER JOIN tb_combinationsubjectxtestpaper csxtp ON cs.id = csxtp.combinationSubjectId
+				INNER JOIN tb_testpaper tp ON csxtp.testPaperId=tp.id
+				WHERE cs.examId = ${exam.id}
+				GROUP BY cs.id
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_dim_combinationsubject" />
+		<mapField from="id" to="id" />
+		<mapField from="examId" to="examId" />
+		<mapField from="name" to="name" />
+		<mapField from="paperType" to="paperType" />
+		<mapField from="fullScore" to="fullScore" />
+		<mapField from="kgScore" to="kgScore" />
+		<mapField from="zgScore" to="zgScore" />
+	</step>
+	<hop ref="dbInput">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

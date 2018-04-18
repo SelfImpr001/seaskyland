@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/jee 
+            http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+
+
+	<context:component-scan base-package="com.cntest.fxpt.**.service.**" />
+	<context:component-scan base-package="com.cntest.fxpt.**.repository.**" />
+	<context:component-scan base-package="com.cntest.remote.**.service.**" />
+	<context:component-scan base-package="com.cntest.remote.**.repository.**" />
+	<context:component-scan base-package="com.cntest.fxpt.bi.smartBI" />
+	<context:component-scan base-package="com.cntest.fxpt.bi.pentaho" />
+	<context:component-scan base-package="com.cntest.fxpt.**.tree.**" />
+	<context:component-scan base-package="com.cntest.fxpt.anlaysis.**" />
+	<context:component-scan base-package="com.cntest.fxpt.personalReport.**" />
+	<context:component-scan base-package="com.cntest.fxpt.etl.business.**" />
+	<context:component-scan base-package="com.cntest.birt.**.service.**" />
+	<context:component-scan base-package="com.cntest.birt.**.repository.**" />
+
+
+	<bean id="appCacheManager" class="com.cntest.cache.EhCacheManager">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	<bean id="disruptor" class="com.cntest.common.disruptor.DisruptorProxy">
+		<constructor-arg>
+			<bean class="com.cntest.common.disruptor.PersistenceEventHandler"
+				scope="prototype">
+				<property name="sessionFactory" ref="sessionFactory"></property>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="provinceReportQuery" class="com.cntest.fxpt.report.ProviceReportQuery"></bean>
+	<bean id="cityReportQuery" class="com.cntest.fxpt.report.CityReportQuery"></bean>
+	<bean id="countyReportQuery" class="com.cntest.fxpt.report.CountyReportQuery"></bean>
+	<bean id="schoolReportQuery" class="com.cntest.fxpt.report.SchoolReportQuery"></bean>
+	<bean id="studentReportQuery" class="com.cntest.fxpt.report.StudentReportQuery"></bean>
+	
+
+	<bean id="bi.BIConnectorPoolMgr" class="com.cntest.fxpt.bi.BIConnectorPoolMgr">
+		<property name="defaultConnectorPool" ref="bi.BIConnectorPool" />
+	</bean>
+
+
+	<bean id="myCacheAspect" class="com.cntest.cache.aop.CacheAspect">
+		<property name="cacheName" value="studentReportCache" />
+	</bean>
+
+	<!-- <aop:config>
+		<aop:pointcut id="studentReportPoint"
+			expression="execution(* com.cntest.fxpt.anlaysis.repository.impl.PersonalExamDao.getTopRatio(..))
+														or execution(* com.cntest.fxpt.anlaysis.repository.impl.PersonalExamDao.getAllStudentContentPreProc(..))
+														or execution(* com.cntest.fxpt.anlaysis.repository.impl.PersonalExamDao.getAllStudentAbilityPreProc(..))
+														or execution(* com.cntest.fxpt.anlaysis.repository.impl.PersonalExamDao.getAllStudentTitleTypePreProc(..)) 
+														or execution(* com.cntest.fxpt.anlaysis.repository.impl.PersonalExamDao.getAllContentRatioProc(..))" />
+		<aop:aspect ref="myCacheAspect">
+			<aop:around method="cacheAround" pointcut-ref="studentReportPoint" />
+		</aop:aspect>
+	</aop:config> -->
+ 
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="startAnalysis" read-only="false"
+				propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="clarenAnalysisResult" read-only="false"
+				propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="prepareAnalysis" read-only="false"
+				propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="*create*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="listCj" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*save*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*add*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*update*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*delete*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*import*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*Proc*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="servicePoint"
+			expression="execution(* com.cntest.fxpt.anlaysis.service..*.*(..)) or execution(* com.cntest.fxpt.service..*.*(..)) or execution(* com.cntest.remote.service..*.*(..))" />
+		<aop:advisor pointcut-ref="servicePoint" advice-ref="txAdvice" />
+	</aop:config>
+</beans>

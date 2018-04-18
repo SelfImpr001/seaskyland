@@ -1,0 +1,43 @@
+<ehcache>
+	<diskStore path="java.io.tmpdir" />
+<!-- 	<diskStore path="D:\\test\\data" /> -->
+	<defaultCache maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="12000" timeToLiveSeconds="12000" overflowToDisk="true"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="120"
+		memoryStoreEvictionPolicy="LRU" />
+
+	<!-- 登录记录缓存 锁定10分钟 -->
+	<cache name="passwordRetryCache" maxEntriesLocalHeap="2000"
+		eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0"
+		overflowToDisk="false" statistics="true">
+	</cache>
+
+	<cache name="authorizationCache" maxEntriesLocalHeap="2000"
+		eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0"
+		overflowToDisk="false" statistics="true">
+	</cache>
+
+	<cache name="authenticationCache" maxEntriesLocalHeap="2000"
+		eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0"
+		overflowToDisk="false" statistics="true">
+	</cache>
+
+	<cache name="shiro-activeSessionCache" maxEntriesLocalHeap="2000"
+		eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0"
+		overflowToDisk="false" statistics="true">
+	</cache>
+	<cache name="app-asycnEventPublisher" maxEntriesLocalHeap="2000"
+		eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0"
+		overflowToDisk="false" statistics="true">
+	</cache>
+
+	<cache name="student-Cache" maxEntriesLocalHeap="10000"
+		maxEntriesLocalDisk="1000" eternal="false" diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="1200" timeToLiveSeconds="1200"
+		memoryStoreEvictionPolicy="LRU" transactionalMode="off"></cache>
+
+	<cache name="student-Cj" maxEntriesLocalHeap="100000000"
+		maxEntriesLocalDisk="0" eternal="false" diskSpoolBufferSizeMB="30"
+		timeToIdleSeconds="300" overflowToDisk="true" timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="LRU" transactionalMode="off"></cache>
+</ehcache>

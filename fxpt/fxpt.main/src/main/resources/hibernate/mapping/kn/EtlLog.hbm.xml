@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.bean.EtlLog" table="kn_etl_logs">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="createDate" type="java.util.Date">
+			<column name="createDate" />
+		</property>
+		<property name="optionUser" type="java.lang.String">
+			<column name="optionUser" />
+		</property>
+		<property name="logType" type="java.lang.Integer">
+			<column name="logType" />
+		</property>
+		<property name="optionContent" type="java.lang.String">
+			<column name="optionContent" />
+		</property>
+		<property name="logContent" type="java.lang.String">
+			<column name="logContent" />
+		</property>
+		<property name="logIsFile" type="java.lang.Boolean">
+			<column name="logIsFile" />
+		</property>
+		<property name="statusMessage" type="java.lang.String">
+			<column name="statusMessage" />
+		</property>
+		<many-to-one name="exam" column="examId" fetch="join"
+			lazy="false" />
+
+	</class>
+</hibernate-mapping>

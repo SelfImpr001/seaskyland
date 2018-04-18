@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.bean.DataField"
+		table="kn_etl_dataField">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="fieldName" type="java.lang.String">
+			<column name="fieldName" length="30" />
+		</property>
+		<property name="asName" type="java.lang.String">
+			<column name="asName" length="30" />
+		</property>
+		<property name="defaultName" type="java.lang.String">
+			<column name="defaultName" length="100" />
+		</property>
+		<property name="sortNum" type="java.lang.Integer">
+			<column name="sortNum"  />
+		</property>
+		<property name="valid" type="java.lang.Boolean">
+			<column name="isValid"  />
+		</property>
+		<property name="need" type="java.lang.Boolean">
+			<column name="isNeed"  />
+		</property>
+		<property name="description" type="java.lang.String">
+			<column name="description" length="200" />
+		</property>
+		<many-to-one name="dataCategory" column="dataCategoryId" fetch="join" />
+		
+	</class>
+</hibernate-mapping>

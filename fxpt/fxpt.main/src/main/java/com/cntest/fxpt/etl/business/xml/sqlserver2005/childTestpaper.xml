@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT cs.examId examId,
+					csxtp.combinationSubjectId combinationSubjectId,
+					csxtp.testPaperId testPaperId
+				FROM tb_combinationsubject cs
+				INNER JOIN tb_combinationsubjectxtestpaper csxtp ON cs.id = csxtp.combinationSubjectId
+				WHERE cs.examId=${exam.id}
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_childtestpaper" />
+		<mapField from="examId" to="examId" />
+		<mapField from="combinationSubjectId" to="combinationSubjectId" />
+		<mapField from="testPaperId" to="testPaperId" />
+	</step>
+	<hop ref="dbInput">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ExamineeCheckin" table="kn_examinee_checkin">
+		<id name="pk" type="java.lang.Long">
+			<column name="examinee_checkin_id" />
+			<generator class="increment" />
+		</id>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" />
+		</property>
+		<property name="checkinDate" type="java.util.Date">
+			<column name="checkinDate" />
+		</property>	
+		<property name="examineeId" type="java.lang.Long">
+			<column name="exam_student_fact_id" />
+		</property>	
+		<many-to-one name="examCheckin" column="exam_checkin_id" fetch="join" cascade="none"/>
+		
+	</class>
+</hibernate-mapping>

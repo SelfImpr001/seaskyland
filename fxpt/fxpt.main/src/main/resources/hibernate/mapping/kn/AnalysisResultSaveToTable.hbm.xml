@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.AnalysisResultSaveToTable"
+		table="kn_analysisresultsavetotable">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="tableName" type="java.lang.String">
+			<column name="tableName" />
+		</property>
+		<property name="classifyName" type="java.lang.String">
+			<column name="classifyName" />
+		</property>
+		<property name="available" type="java.lang.Boolean">
+			<column name="available" />
+		</property>
+		<many-to-one name="analysisTheme" cascade="all"
+			column="analysisThemeId" fetch="join" />
+	</class>
+</hibernate-mapping>

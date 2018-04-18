@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT id examId,
+					 name name,
+					sortName sortName,
+					examDate examDate,
+					examTypeId examTypeId,
+					isWlForExamStudent isWlForExamStudent,
+					examStudentJiebie examStudentJiebie,
+					schoolYear schoolYear,
+					schoolTerm schoolTerm,
+					gradeId gradeId,
+					ownerCode ownerCode,
+					ownerName ownerName,
+					levelCode levelCode,
+					levelName  levelName
+				FROM tb_exam
+				WHERE id = ${exam.id}
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_dim_exam" />
+		<mapField from="examId" to="examId" />
+		<mapField from="name" to="name" />
+		<mapField from="sortName" to="sortName" />
+		<mapField from="examDate" to="examDate" />
+		<mapField from="examTypeId" to="examTypeId" />
+		<mapField from="isWlForExamStudent" to="isWlForExamStudent" />
+		<mapField from="examStudentJiebie" to="examStudentJiebie" />
+		<mapField from="schoolYear" to="schoolYear" />
+		<mapField from="schoolTerm" to="schoolTerm" />
+		<mapField from="gradeId" to="gradeId" />
+		<mapField from="ownerCode" to="ownerCode" />
+		<mapField from="ownerName" to="ownerName" />
+		<mapField from="levelCode" to="levelCode" />
+		<mapField from="levelName" to="levelName" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

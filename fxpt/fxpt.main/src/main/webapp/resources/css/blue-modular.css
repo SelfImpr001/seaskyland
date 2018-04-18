@@ -1,0 +1,107 @@
+.skin_color_dark .navbar {
+    background: none repeat scroll 0 0 #2098ef;
+    border-bottom: none;
+}
+.skin_color_dark .ace-nav>li {
+	height:50px;
+    line-height: 50px;
+	    border-left: none;
+}
+.skin_color_dark .navbar .navbar-brand {
+    height: 50px;
+}
+.skin_color_dark .ace-nav>li.open>a {
+    background-color: #1a86e0 !important;
+    color: #fff !important;
+}
+.skin_color_dark .table-striped>tbody>tr:nth-child(odd) {
+    background: #fff;
+}
+.skin_color_dark .table-striped>tbody>tr:nth-child(even) {
+    background: #fff;
+}
+.skin_color_dark .table>tbody>tr>td{
+	color: #999999;
+}
+.skin_color_dark thead th {
+    background: #2098ef;
+    border-bottom-width: 1px !important;
+    color: #fff;
+}
+.skin_color_dark .btn-primary {
+    color: #fff;
+    background-color: #2098ef;
+    border-color: #2098ef;
+}
+.skin_color_dark .table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
+	background: #f3f6fd;
+}
+.skin_color_dark .page-box2 {
+    background: #f3f6fd;
+}
+.skin_color_dark .page-content {
+    background: none;
+}
+.skin_color_dark .sidebar2 .nav li {
+    border-bottom: none;
+}
+.skin_color_dark .sidebar2 {
+    width: 220px;
+    background:#3b4966;
+}
+.skin_color_dark .sidebar2 .nav > li > a {
+    color: #9ca4b7;
+}
+.skin_color_dark #sidebar .item.active {
+    background-color: #2098ef;
+    color: #fff;
+    font-weight: bold;
+}
+.skin_color_dark #sidebar .nav-list2 > li .submenu ,.skin_color_dark .side_container .nav-list2 > li .submenu li{
+    background: #3b4966;
+}
+.skin_color_dark #sidebar .submenu .active >a {
+     color: #2099ef;  
+}
+.skin_color_dark .ace-nav>li>a:hover,.skin_color_dark .ace-nav>li>a:focus {
+	background-color: #1a86e0!important;
+}
+.skin_color_dark #sidebar.side_container .submenu li >a:hover{
+	color: #2099ef;
+	background: #293541;
+}
+.skin_color_dark .query-form{
+	background:#fff;
+}
+.skin_color_dark .label-box{
+	background:#fff;
+}
+.skin_color_dark .label-box .item.active{
+	background:#2098ef;
+}
+.skin_color_dark .nav  li  a:hover, .skin_color_dark .nav  li  a:focus{
+	background:#293541 ;
+}
+.skin_color_dark .dropdown-menu>li>a:hover,.skin_color_dark .dropdown-menu>li>a:focus {
+	background: #2098ef;
+}
+.skin_color_dark .skin_change{
+    border-left: 0px solid #000;
+    }
+.skin_color_dark .skin_change:hover{
+    	    background-color: #1a86e0!important;
+    }
+.skin_color_dark .skin_change i{
+    	font-size:23px;
+    	color:#fff;
+    	line-height: 50px;
+    }
+.skin_color_dark  .ace-nav>li>a{
+	    background-color: #1a86e0!important;
+}
+.skin_color_dark #sidebar .submenu .active >a{
+	border-left: 3px solid #2098ef;
+}
+.skin_color_dark #sidebar .submenu .active >a.dropdown-toggle{
+	border-left:0;
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ExamPaprameter" table="kn_parameters">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="paramType" type="java.lang.Integer">
+			<column name="paramType" />
+		</property>
+		<property name="paramName" type="java.lang.String">
+			<column name="paramName" />
+		</property>
+		<property name="paramValue" type="java.lang.String">
+			<column name="paramValue" />
+		</property>
+		<property name="paramAsName" type="java.lang.String">
+			<column name="paramAsName" />
+		</property>
+		<many-to-one name="exam" column="examId" fetch="join" />
+	</class>
+</hibernate-mapping>

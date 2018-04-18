@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+	<values>
+		<value name="provinceNewID" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT ISNULL(MAX(id),0) FROM tb_dim_province
+					]]>
+			</sql>
+		</value>
+	</values>
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT CODE,NAME FROM tb_education WHERE TYPE=1 AND isSyn=0
+			]]>
+		</sql>
+	</step>
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_dim_province" />
+		<mapField from="CODE" to="CODE" />
+		<mapField from="NAME" to="NAME" />
+		<finalData name="id" autoIncrement="true" refValue="provinceNewID" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="DBLoad"/>
+	</hop>
+</etl>

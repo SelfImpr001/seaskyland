@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl>
+	<values>
+		<value name="examStudentMaxId" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT ISNULL(MAX(sid),0) FROM tb_examstudent_fact
+					]]>
+			</sql>
+		</value>
+		<value name="examId" value="exam.id" />
+
+		<keyValue name="schoolProvinceKeyValues" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT xx.schoolCode AS schoolCode,ss.id AS provinceId FROM dw_dim_school xx
+						INNER JOIN tb_dim_province ss ON xx.provinceCode=ss.CODE
+					]]>
+			</sql>
+			<keyFileds>
+				<filed value="schoolCode" />
+			</keyFileds>
+			<valueFiled value="provinceId" />
+		</keyValue>
+		
+		<keyValue name="schoolCityKeyValues" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT xx.schoolCode AS schoolCode,ds.id AS cityId FROM dw_dim_school xx
+						INNER JOIN tb_dim_city ds ON xx.cityCode=ds.CODE
+					]]>
+			</sql>
+			<keyFileds>
+				<filed value="schoolCode" />
+			</keyFileds>
+			<valueFiled value="cityId" />
+		</keyValue>
+
+		<keyValue name="schoolCountyKeyValues" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT xx.schoolCode AS schoolCode,qx.id AS countyId FROM dw_dim_school xx
+						INNER JOIN tb_dim_county qx ON xx.countyCode=qx.CODE
+					]]>
+			</sql>
+			<keyFileds>
+				<filed value="schoolCode" />
+			</keyFileds>
+			<valueFiled value="countyId" />
+		</keyValue>
+
+		<keyValue name="schoolKeyValues" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT schoolCode,schoolId FROM dw_dim_school
+					]]>
+			</sql>
+			<keyFileds>
+				<filed value="schoolCode" />
+			</keyFileds>
+			<valueFiled value="schoolId" />
+		</keyValue>
+		<keyValue name="classKeyValues" dsName="houseDataSource">
+			<sql>
+					<![CDATA[
+						SELECT schoolCode,classCode,cId FROM tb_dim_examclass where examId=${exam.id}
+					]]>
+			</sql>
+			<keyFileds>
+				<filed value="schoolCode" />
+				<filed value="classCode" />
+			</keyFileds>
+			<valueFiled value="cId" />
+		</keyValue>
+	</values>
+
+
+
+	<step name="dbInput" type="DBInput" isBegin="true" description="从数据库抽取数据">
+		<dataScource springRef="dataSource" />
+		<sql>
+			<![CDATA[
+				SELECT 
+					studentId, 
+					name, 
+					gender, 
+					domicile, 
+					nation, 
+					classCode, 
+					schoolCode, 
+					learLanguage, 
+					wl, 
+					isPast, 
+					isTransient 
+				FROM tb_examstudent 
+				WHERE examId=${exam.id};
+			]]>
+		</sql>
+	</step>
+
+	<step name="TransformStep" type="TransformStep" description="转换数据">
+		<parameters>
+			<parameter name="provinceIds" refValue="schoolProvinceKeyValues" />
+			<parameter name="cityIds" refValue="schoolCityKeyValues" />
+			<parameter name="countyIds" refValue="schoolCountyKeyValues" />
+			<parameter name="schoolIds" refValue="schoolKeyValues" />
+			<parameter name="classIds" refValue="classKeyValues" />
+		</parameters>
+		<LookUpAdd>
+			<append lookUpDataset="provinceIds" dataFieldName="schoolCode"
+				newFieldName="provinceId" />
+			<append lookUpDataset="cityIds" dataFieldName="schoolCode"
+				newFieldName="cityId" />
+			<append lookUpDataset="countyIds" dataFieldName="schoolCode"
+				newFieldName="countyId" />
+			<append lookUpDataset="schoolIds" dataFieldName="schoolCode"
+				newFieldName="schoolId" />
+			<append lookUpDataset="classIds" dataFieldName="schoolCode|classCode"
+				newFieldName="classId" />
+		</LookUpAdd>
+	</step>
+
+
+	<step name="DBLoad" type="DBLoad" description="加载数据到数据仓库">
+		<dataScource springRef="houseDataSource" />
+		<table value="tb_examstudent_fact" />
+		<mapField from="provinceId" to="provinceId" />
+		<mapField from="cityId" to="cityId" />
+		<mapField from="countyId" to="countyId" />
+		<mapField from="schoolId" to="schoolId" />
+		<mapField from="classId" to="classId" />
+		<mapField from="studentId" to="studentId" />
+		<mapField from="name" to="name" />
+		<mapField from="gender" to="gender" />
+		<mapField from="domicile" to="domicile" />
+		<mapField from="nation" to="nation" />
+		<mapField from="learLanguage" to="learLanguage" />
+		<mapField from="wl" to="wl" />
+		<mapField from="isPast" to="isPast" />
+		<mapField from="isTransient" to="isTransient" />
+		<finalData name="sid" autoIncrement="true" refValue="examStudentMaxId" />
+		<finalData name="examId" autoIncrement="false" refValue="examId" />
+	</step>
+
+	<hop ref="dbInput">
+		<add ref="TransformStep" />
+	</hop>
+	<hop ref="TransformStep">
+		<add ref="DBLoad" />
+	</hop>
+</etl>

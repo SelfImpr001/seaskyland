@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.cntest.foura.domain">
+ 	<class name="UserInfo" table="4a_user_detail">
+<!--  		<id name="pk" type="java.lang.Long"> -->
+<!--  			<column name="user_id" /> -->
+<!--  			<generator class="increment" /> -->
+<!--  		</id> -->
+ 		<id name="pk" type="java.lang.Long">
+			<column name="ui_id" />
+ 			<generator class="increment" />
+		</id>
+ 		<property name="nickName" type="java.lang.String">
+ 			<column name="nick_name" length="16"/>
+ 		</property>
+ 		<property name="realName" type="java.lang.String">
+ 			<column name="real_name" length="16"/>
+ 		</property>
+ 		<property name="sex" >
+ 			<column name="sex" />
+ 			<type name="org.hibernate.type.EnumType">
+ 				<param name="enumClass">com.cntest.foura.domain.Sex</param>
+ 				<param name="type">12</param>
+ 			</type>
+ 		</property>
+ 		<property name="cellphone" type="java.lang.String">
+ 			<column name="cellphone" length="16"/>
+ 		</property>
+ 		<property name="telphone" type="java.lang.String">
+ 			<column name="telphone" length="20"/>
+ 		</property>
+ 		<property name="email" type="java.lang.String">
+ 			<column name="email" length="32"/>
+ 		</property>
+ 		<property name="comment" type="java.lang.String">
+ 			<column name="user_comment" length="200"/>
+ 		</property> 	 		 		 		
+ 		<many-to-one name="user" class="User"  unique="true" cascade="all" fetch="join">
+ 		    <column name="user_id" precision="10" scale="0" not-null="true"></column>
+ 		</many-to-one>
+ 		<set name="identities" table="4a_identity" cascade="all">
+ 			<key column="uinfo_id" />
+ 			<one-to-many class="Identity" />
+ 		</set>
+ 	</class>
+ </hibernate-mapping>

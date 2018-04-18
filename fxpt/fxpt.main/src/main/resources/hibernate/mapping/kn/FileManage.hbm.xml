@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.FileManage" table="kn_file_manage">
+		<id name="fileId" type="java.lang.Long">
+			<column name="file_id" />
+			<generator class="increment" />
+		</id>
+		<property name="examId" type="java.lang.Long">
+			<column name="examid" length="20" />
+		</property>
+		<property name="fileType" type="java.lang.Long">
+			<column name="file_type" length="20" />
+		</property>
+		<property name="importTime" type="java.util.Date">
+			<column name="import_time" />
+		</property>
+		<property name="fileName" type="java.lang.String">
+			<column name="file_name" length="50" />
+		</property>
+		<property name="filePath" type="java.lang.String">
+			<column name="file_path" length="50" />
+		</property>
+		<property name="importer" type="java.lang.String">
+			<column name="importer" length="50" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+ 	<class name="com.cntest.foura.domain.Position" table="4a_position">
+ 		<id name="pk" type="java.lang.Long">
+ 			<column name="position_id" />
+ 			<generator class="increment" />
+ 		</id>
+ 		
+ 		<property name="name" type="java.lang.String">
+ 			<column name="position_name" length="16"/>
+ 		</property>
+ 		
+ 		<property name="desc" type="java.lang.String">
+ 			<column name="position_desc" length="255"/>
+ 		</property>
+ 		
+ 		
+ 	</class>
+ </hibernate-mapping>

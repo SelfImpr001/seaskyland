@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ExamCheckinSpec" table="kn_exam_checkin_spec">
+		<id name="pk" type="java.lang.Long">
+			<column name="spec_id" />
+			<generator class="increment" />
+		</id>
+		<property name="specCode" type="java.lang.String">
+			<column name="specCode" length="100"/>
+		</property>
+		<property name="specName" type="java.lang.String">
+			<column name="specName" length="100"/>
+		</property>
+		
+		<many-to-one name="checkin" column="exam_checkin_id" fetch="join" />
+	</class>
+</hibernate-mapping>

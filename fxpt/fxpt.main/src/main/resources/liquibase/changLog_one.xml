@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+  <!-- id的默认规则  以1开头 后面自增长例如  10 11 12 13...19 110 111 112... 
+  <changeSet id="10" author="chenyou">
+       <createTable tableName="liquibaseTest">
+       	<column name="id" type="bigint(20)">
+       		<constraints primaryKey="true"/>
+       	</column>
+       	<column name="name" type="varchar(255)" />
+       	<column name="password" type="varchar(255)" />
+       </createTable> 
+  </changeSet> -->
+  
+  
+  <changeSet author="guoqinglin(update)" id="11">
+    <addColumn tableName="kn_birt_report_list">
+        <column name="org_id" type="bigint(20)"/>
+    </addColumn>
+       <createTable remarks="birt组织"
+            tableName="kn_birt_org"
+            >
+        
+         <column autoIncrement="true" name="id" type="bigint(20)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_t_module_config"/>
+   		 </column>
+         <column name="org_name" type="varchar(20)"/>
+          <column name="p_id" type="bigint(20)"/>
+    </createTable>
+    
+</changeSet>
+</databaseChangeLog>

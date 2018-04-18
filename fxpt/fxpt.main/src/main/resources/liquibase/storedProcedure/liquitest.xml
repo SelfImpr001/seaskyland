@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7 
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd"> 
+   <!-- 特殊字符的处理："<"小于号用&lt;替代，">"大于号用&gt;替代 
+   <changeSet author="chenyou" id="10086-201705221453">
+    <createProcedure> 
+   		DROP PROCEDURE IF EXISTS liquitest;
+	</createProcedure>
+    <createProcedure> 
+   	CREATE  PROCEDURE liquitest(_examId BIGINT,_wl BIGINT,_schoolId BIGINT,_testPaperId BIGINT,_firstNum INT,maxNum INT)
+	BEGIN
+			SELECT
+	  a.org_code AS org_code,
+	  a.org_name AS org_name,
+	  '-' AS classcode ,
+	  ddi.itemNo AS itemNo,
+	  daxi.skrs AS skrs,
+	  ddi.rightOptioin AS rightOptioin,
+	  daxi.ANum/daxi.skrs*100 APercent,
+	  daxi.BNum/daxi.skrs*100 BPercent,
+	  daxi.CNum/daxi.skrs*100 CPercent,
+	  daxi.DNum/daxi.skrs*100 DPercent,
+	  daxi.otherNum/daxi.skrs*100 otherPercent,
+	1  AS  objtype
+	FROM dw_agg_xinjiang_item daxi
+	INNER JOIN dw_dim_item ddi ON daxi.itemId=ddi.id
+	  INNER JOIN `4a_org` a
+	    ON daxi.objId = a.org_id AND daxi.objType = a.org_type;
+ 	END;
+	</createProcedure>
+</changeSet>-->
+</databaseChangeLog>

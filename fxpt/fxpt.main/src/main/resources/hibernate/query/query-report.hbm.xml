@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-mapping>
+	<sql-query name="com.cntest.fxpt.report.macro">
+    <![CDATA[
+        <#macro outputFields>
+		  exam.id,
+		  exam.name,
+		  exam.sortName,
+		  exam.examDate,
+		  exam.isWlForExamStudent,
+		  exam.examStudentJiebie,
+		  exam.schoolYear,
+		  exam.schoolTerm,
+		  exam.ownerCode,
+		  exam.ownerName,
+		  exam.levelCode,
+		  exam.levelName,
+		  et.name as typeName,
+		  grade.id                AS gradeId,
+		  grade.NAME              AS gradeName        
+        </#macro>
+        
+        <#macro innerWhere orgs=[] type=4 alias="">
+          <#local where="">
+	      <#list orgs as org >
+	        <#if org.type=type> 
+	          <#local where = where + alias + ".code = '"+ org.code+"' or ">
+	        </#if>
+	      </#list>  
+	      <#if where?length=0>
+	        <#local where=alias + ".code = '-1' or ">
+	      </#if>
+	      ${where?substring(0,where?length-3)}
+        </#macro>
+        
+        <#macro paramsBuild params={}>
+          <#local where="">
+          <#list params?keys as key>
+            <#local where = where + " AND  exam."+key+"=?">
+          </#list>
+          <#-----
+          <#if params.examDate??><#local where = where + " AND  exam.examDate=?"></#if>
+          <#if params.schoolYear??><#local where = where +   " AND  exam.schoolYear=?"></#if>
+          <#if params.schoolTerm??><#local where = where + " AND  exam.schoolTerm=?"></#if>
+          <#if params.examType??><#local where = where + " AND  exam.examTypeId=?"></#if>
+          ---->
+          ${where}
+        </#macro>
+        <#macro groupby>
+          GROUP BY exam.examTypeId,exam.schoolYear,exam.schoolTerm,exam.examDate,exam.gradeId
+        </#macro>                
+        
+        <#---组织报告查询--->
+        <#macro reportSQL orgs=[] type=4  orgTable="dw_dim_school" refIdName="schoolId" params={} allFields=true hasOrderBy=true>
+			SELECT
+			<#if allFields=true>  
+			  <@outputFields/>
+			<#else>
+			  exam.id
+			</#if>  
+			FROM kn_exam exam
+			  INNER JOIN kn_grade grade
+			    ON exam.gradeId = grade.id
+			  <#if allFields=true>INNER JOIN kn_examtype et ON exam.examTypeId=et.id</#if>
+			  INNER JOIN (SELECT
+			                examId
+			              FROM dw_examstudent_fact xs
+			                INNER JOIN ${orgTable} org
+			                  ON xs.${refIdName} = org.id
+			              WHERE <@innerWhere orgs=orgs type=type alias="org"/>
+			              GROUP BY examId) tmp
+			    ON exam.status = 5 AND exam.levelCode <= ${type} 
+			      <@paramsBuild params=params/> AND  exam.id = tmp.examId
+			<@groupby/>
+			<#if hasOrderBy=true>
+			ORDER BY exam.examDate DESC,exam.id DESC
+			</#if> 
+        </#macro>
+        <#macro reportCountySQL orgs=[] type=4  orgTable="dw_dim_school" refIdName="schoolId" params={}>
+			SELECT
+			  COUNT(1) as num
+			FROM (
+			  <@reportSQL orgs=orgs type=type orgTable=orgTable refIdName=refIdName params=params allFields=false hasOrderBy=false/> 
+			) a 
+        </#macro>
+        
+        <#---学生报告查询--->
+        <#macro studentReportSQL student={} params={}>
+			SELECT 
+			  exam.id,
+			  exam.name,
+			  exam.sortName,
+			  exam.examDate,
+			  exam.isWlForExamStudent,
+			  exam.examStudentJiebie,
+			  exam.schoolYear,
+			  exam.schoolTerm,
+			  c.studentId AS ownerCode,
+			  exam.ownerName,
+			  exam.levelCode,
+			  exam.levelName,
+			  et.name as typeName,
+			  grade.id                AS gradeId,
+			  grade.NAME              AS gradeName
+			FROM kn_studentbase a  INNER JOIN dw_examstudent_fact c ON c.studentId = a.xh  
+			  -- INNER JOIN kn_student_exam b ON b.studentGuid=a.guid  
+			      AND a.schoolCode = '${(student.school.code)!""}'
+			      AND a.NAME = '${(student.name)!""}'
+			      AND a.xh = '${(student.xh)!""}' 
+			  -- INNER JOIN dw_examstudent_fact c ON c.id = b.exam_student_fact_id 
+			     
+			  INNER JOIN kn_exam exam ON exam.id = c.examId AND exam.STATUS = 5
+			  INNER JOIN kn_examtype et ON et.id = exam.examTypeId
+			  INNER JOIN kn_grade grade ON exam.gradeId = grade.id
+			WHERE 1=1 <@paramsBuild params=params/> 
+        </#macro>        
+        <#macro studentReportCountSQL student={} params={}>
+			SELECT
+			  COUNT(1) as num
+			FROM (
+			  <@studentReportSQL student=student params=params/> 
+			) a 
+        </#macro>
+        
+        <#---考生报告查询--->
+        <#macro examineeReportSQL examinee={} params={}>
+			SELECT 
+			  exam.id,
+			  exam.name,
+			  exam.sortName,
+			  exam.examDate,
+			  exam.isWlForExamStudent,
+			  exam.examStudentJiebie,
+			  exam.schoolYear,
+			  exam.schoolTerm,
+			  a.studentId AS ownerCode,
+			  exam.ownerName,
+			  exam.levelCode,
+			  exam.levelName,
+			  et.name as typeName,
+			  grade.id                AS gradeId,
+			  grade.NAME              AS gradeName
+			FROM dw_examstudent_fact a
+			  INNER JOIN kn_exam exam
+			    ON exam.id = a.examId AND exam.STATUS = 5
+			  INNER JOIN kn_examtype et
+			    ON et.id = exam.examTypeId
+			  INNER JOIN kn_grade grade
+			    ON exam.gradeId = grade.id
+			  INNER JOIN dw_dim_school b
+			    ON b.id = a.schoolId
+			      AND b.code = '${(examinee.school.code)!""}'
+			      AND a.NAME = '${(examinee.name)!""}'
+			      AND a.studentId = '${(examinee.studentId)!""}'
+			WHERE 1=1 <@paramsBuild params=params/>
+			 
+        </#macro>        
+        <#macro examineeReportCountSQL examinee={} params={}>
+			SELECT
+			  COUNT(1) as num
+			FROM (
+			  <@examineeReportSQL examinee=examinee params=params/> 
+			) a 
+        </#macro>                                
+    ]]>
+    </sql-query>
+	<sql-query name="com.cntest.fxpt.report.SchoolReportQuery.reportFor.count">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportCountySQL orgs=orgs type=4  params=params!{}/>
+	]]>
+	</sql-query>
+		
+	<sql-query name="com.cntest.fxpt.report.SchoolReportQuery.reportFor">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportSQL orgs=orgs type=4 refIdName="schoolId" params=params!{}/>
+	]]>
+	</sql-query>
+	<sql-query name="com.cntest.fxpt.report.CountyReport.reportFor">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportSQL orgs=orgs type=3 orgTable="dw_dim_county" refIdName="countyId" params=params/>	
+	]]>
+	
+	</sql-query>
+	<sql-query name="com.cntest.fxpt.report.CountyReport.reportFor.count">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportCountySQL orgs=orgs type=3 orgTable="dw_dim_county" refIdName="countyId" params=params/>
+	]]>
+	</sql-query>
+
+	<sql-query name="com.cntest.fxpt.report.CityReportQuery.reportFor.count">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportCountySQL orgs=orgs type=2 orgTable="dw_dim_city" refIdName="cityId" params=params!{}/>
+	]]>
+	</sql-query>	
+	<sql-query name="com.cntest.fxpt.report.CityReportQuery.reportFor">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportSQL orgs=orgs type=2 orgTable="dw_dim_city" refIdName="cityId" params=params!{}/>	
+	]]>
+	</sql-query>
+	
+	<sql-query name="com.cntest.fxpt.report.ProviceReportQuery.reportFor.count">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportCountySQL orgs=orgs type=1 orgTable="dw_dim_province" refIdName="provinceId" params=params!{}/>
+	]]>
+	</sql-query>	
+	<sql-query name="com.cntest.fxpt.report.ProviceReportQuery.reportFor">
+    <![CDATA[
+        <#include "com.cntest.fxpt.report.macro">
+		<@reportSQL orgs=orgs type=1 orgTable="dw_dim_province" refIdName="provinceId" params=params!{}/>	 
+	]]>
+	</sql-query>	
+	
+	<sql-query name="com.cntest.fxpt.anlaysis.repository.impl.ReportExamDao.selectSameTermExams">
+    <![CDATA[
+		<#include "com.cntest.fxpt.report.macro">
+		SELECT 
+ 		  <@outputFields/>
+		FROM (SELECT DISTINCT
+		        examId
+		      FROM dw_examstudent_fact xs
+		        INNER JOIN <@getTable orgType=type!4/> o
+		          ON xs.<@getRefField orgType=type!4/> = o.id
+		      WHERE o.code = '${code!""}') a
+		  INNER JOIN (SELECT
+                ks.*
+              FROM kn_exam ks
+                INNER JOIN kn_exam ks1
+                  ON ks.status = 5
+                    AND ks1.id = ?
+                    AND ks.schoolYear = ks1.schoolYear
+                    AND ks.schoolTerm = ks1.schoolTerm
+                    AND ks.examTypeId = ks1.examTypeId
+                    AND ks.examDate = ks1.examDate) exam
+		    ON exam.Id = a.examId
+		  INNER JOIN kn_grade grade
+		    ON exam.gradeId = grade.id
+		  INNER JOIN kn_examtype et
+		    ON exam.examTypeId = et.id		    
+        <#macro getTable orgType=4>
+	      <#switch orgType>
+	      <#case 1>
+	        ${"dw_dim_province"}
+	        <#break>
+	      <#case 2>
+	        ${"dw_dim_city"}
+	        <#break>
+	      <#case 3>
+	        ${"dw_dim_county"}
+	        <#break>		        		        
+	      <#default>
+	        ${"dw_dim_school"}
+	      </#switch>        
+        </#macro>
+        <#macro getRefField orgType=4>
+	      <#switch orgType>
+	      <#case 1>
+	        ${"provinceId"}
+	        <#break>
+	      <#case 2>
+	        ${"cityId"}
+	        <#break>
+	      <#case 3>
+	        ${"countyId"}
+	        <#break>		        		        
+	      <#default>
+	        ${"schoolId"}
+	      </#switch>        
+        </#macro>
+	]]>
+	</sql-query>
+	
+	<sql-query name="com.cntest.fxpt.anlaysis.repository.impl.ReportExamDao.selectStudentExamsFromExamStudent">
+    <![CDATA[
+		<#include "com.cntest.fxpt.report.macro">
+		<@examineeReportSQL params=params examinee=examinee/> ORDER BY grade.id DESC,exam.examDate DESC,et.id DESC 
+	]]>
+	</sql-query>
+	<sql-query name="com.cntest.fxpt.anlaysis.repository.impl.ReportExamDao.selectStudentExamsFromExamStudent.count">
+    <![CDATA[
+		<#include "com.cntest.fxpt.report.macro">
+		<@examineeReportCountSQL params=params examinee=examinee/> 
+	]]>
+	</sql-query>
+		
+	<sql-query name="com.cntest.fxpt.anlaysis.repository.impl.ReportExamDao.selectStudentExamsFromStudentBase">
+    <![CDATA[
+		<#include "com.cntest.fxpt.report.macro">
+		<@studentReportSQL params=params student=student/> ORDER BY grade.id DESC,exam.examDate DESC,et.id DESC  
+	]]>
+	</sql-query>
+	<sql-query name="com.cntest.fxpt.anlaysis.repository.impl.ReportExamDao.selectStudentExamsFromStudentBase.count">
+    <![CDATA[
+		<#include "com.cntest.fxpt.report.macro">
+		<@studentReportCountSQL params=params student=student/>
+	]]>
+	</sql-query>					
+</hibernate-mapping>

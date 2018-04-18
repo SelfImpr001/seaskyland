@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.EducationMonitor" table="fs_monitor">
+  
+		<id name="pk" type="java.lang.Long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<property name="monitorDate" type="java.util.Date">
+			<column name="monitorDate"  />
+		</property>
+		
+		<property name="semester" type="java.lang.String">
+			<column name="semester"  />
+		</property>
+		
+		<property name="academicYear" type="java.lang.String">
+			<column name="academicYear"  />
+		</property>
+		<property name="analysisType" type="java.lang.String">
+			<column name="analysisType"  />
+		</property>
+		<property name="questionName" type="java.lang.String">
+			<column name="questionName"  />
+		</property>
+		<property name="institutions" type="java.lang.String">
+			<column name="institutions"  />
+		</property>
+		<property name="createUser" type="java.lang.String">
+			<column name="createUser"  />
+		</property>
+		<property name="grade" type="java.lang.String">
+			<column name="grade"  />
+		</property>
+		<property name="createTime" type="java.util.Date">
+			<column name="createTime"  />
+		</property>
+		 
+	</class>
+</hibernate-mapping>

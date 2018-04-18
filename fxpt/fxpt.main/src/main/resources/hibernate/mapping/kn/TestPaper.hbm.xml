@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.TestPaper" table="kn_testPaper">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="fullScore" type="java.lang.Double">
+			<column name="fullScore" />
+		</property>
+		<property name="hasItem" type="java.lang.Boolean">
+			<column name="hasItem" />
+		</property>
+		<property name="hasCj" type="java.lang.Boolean">
+			<column name="hasCj" />
+		</property>
+		<property name="masterSubject" type="java.lang.Boolean">
+			<column name="masterSubject" />
+		</property>
+		<property name="containPaper" type="java.lang.Boolean">
+			<column name="containPaper" />
+		</property>
+		<property name="paperType" type="java.lang.Integer">
+			<column name="paperType" />
+		</property>
+		<property name="selOptions" type="java.lang.String">
+			<column name="selOptions" />
+		</property>
+		
+		<property name="hasAnalysis" type="java.lang.Boolean">
+			<column name="hasAnalysis" />
+		</property>
+		
+		<bag name="analysisTestpapers" inverse="true" lazy="false">
+			<key column="testPaperId" />
+			<one-to-many class="com.cntest.fxpt.domain.AnalysisTestpaper" />
+		</bag>
+		<many-to-one name="exam" column="examId" fetch="join"
+			lazy="false" />
+	</class>
+</hibernate-mapping>

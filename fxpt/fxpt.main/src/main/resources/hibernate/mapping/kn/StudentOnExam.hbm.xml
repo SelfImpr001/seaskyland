@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.StudentOnExam" table="kn_student_exam">
+		<id name="pk" type="java.lang.Long">
+			<column name="sx_id" />
+			<generator class="increment" />
+		</id>
+
+		<property name="examineeId" type="java.lang.Long">
+			<column name="exam_student_fact_id" />
+		</property>	
+
+		<many-to-one name="exam" column="examId" fetch="join" />
+		<many-to-one name="student"  fetch="join" property-ref="guid">
+			<column name="studentGuid"></column>
+		</many-to-one>
+	</class>
+</hibernate-mapping>

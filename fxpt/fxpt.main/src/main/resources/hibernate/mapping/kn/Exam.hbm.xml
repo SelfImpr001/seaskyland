@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.Exam" table="kn_exam">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" length="50" />
+		</property>
+		<property name="sortName" type="java.lang.String">
+			<column name="sortName" length="30" />
+		</property>
+		<property name="examDate" type="java.util.Date">
+			<column name="examDate" />
+		</property>
+		<property name="createDate" type="java.util.Date">
+			<column name="createDate" />
+		</property>
+
+		<property name="wlForExamStudent" type="java.lang.Boolean">
+			<column name="isWlForExamStudent" />
+		</property>
+		<property name="examStudentJiebie" type="java.lang.Integer">
+			<column name="examStudentJiebie" />
+		</property>
+		<property name="examStudentJiebieName" type="java.lang.String">
+			<column name="examStudentJiebieName" />
+		</property>
+		<property name="schoolYear" type="java.lang.Integer">
+			<column name="schoolYear" />
+		</property>
+		<property name="schoolYearName" type="java.lang.String">
+			<column name="schoolYearName" />
+		</property>
+		<property name="schoolTerm" type="java.lang.Integer">
+			<column name="schoolTerm" />
+		</property>
+
+		<property name="ownerCode" type="java.lang.String">
+			<column name="ownerCode" length="30" />
+		</property>
+		<property name="containOrg" type="java.lang.String">
+			<column name="containOrg" length="1000" />
+		</property>
+		<property name="ownerName" type="java.lang.String">
+			<column name="ownerName" length="30" />
+		</property>
+		<property name="levelName" type="java.lang.String">
+			<column name="levelName" length="30" />
+		</property>
+		<property name="createUserName" type="java.lang.String">
+			<column name="createUserName" length="30" />
+		</property>
+		<property name="levelCode" type="java.lang.Integer">
+			<column name="levelCode" />
+		</property>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" />
+		</property>
+		<property name="hasExamStudent" type="java.lang.Boolean">
+			<column name="hasExamStudent" />
+		</property>
+
+		<property name="studentBaseStatus" type="java.lang.Integer">
+			<column name="studentBaseStatus" />
+		</property>
+		<property name="impItemCount" type="java.lang.Integer">
+			<column name="impItemCount" />
+		</property>
+		<property name="impCjCount" type="java.lang.Integer">
+			<column name="impCjCount" />
+		</property>
+
+		<many-to-one name="grade" column="gradeId" fetch="join" />
+		<many-to-one name="examType" column="examTypeId" fetch="join" />
+		<bag name="testPapers" inverse="true" lazy="false">
+			<key column="examId" />
+			<one-to-many class="com.cntest.fxpt.domain.TestPaper" />
+		</bag>
+	</class>
+</hibernate-mapping>

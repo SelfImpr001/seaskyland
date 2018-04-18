@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.Education" table="4a_org">
+		<id name="id" type="java.lang.Long">
+			<column name="org_id" />
+			<generator class="increment" />
+		</id>
+		<property name="code" type="java.lang.String">
+			<column name="org_code" />
+		</property>
+		<property name="name" type="java.lang.String">
+			<column name="org_name" />
+		</property>
+		<property name="type" type="java.lang.Integer">
+			<column name="org_type" />
+		</property>
+
+		<many-to-one name="parent" column="p_id" fetch="join" lazy="false" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+ 	<class name="com.cntest.foura.domain.UserRole" table="4a_user_role">
+ 		<id name="pk" type="java.lang.Long">
+ 			<column name="ur_id" />
+ 			<generator class="native" />
+ 		</id>
+ 		<many-to-one name="user" class="com.cntest.foura.domain.User">
+ 			<column name="user_id" />
+ 		</many-to-one>
+ 		
+ 		<many-to-one name="role" class="com.cntest.foura.domain.Role" >
+ 			<column name="role_id" />
+ 		</many-to-one>
+ 	</class>
+ </hibernate-mapping>

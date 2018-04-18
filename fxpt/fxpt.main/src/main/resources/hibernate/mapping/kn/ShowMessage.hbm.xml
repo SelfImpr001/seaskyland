@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.fxpt.domain.ShowMessage"
+		table="kn_show_message">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="examid" type="java.lang.Long">
+			<column name="examid" />
+		</property>
+		<property name="testPaperId" type="java.lang.Long">
+			<column name="testpaperid" />
+		</property>
+		<property name="fieldName" type="java.lang.String">
+			<column name="fieldname" />
+		</property>
+		<property name="isShow" type="java.lang.Integer">
+			<column name="isShow" />
+		</property>
+		<property name="showType" type="java.lang.Integer">
+			<column name="showType" />
+		</property>
+	</class>
+</hibernate-mapping>

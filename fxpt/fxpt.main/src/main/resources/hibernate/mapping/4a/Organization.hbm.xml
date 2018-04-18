@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.cntest.foura.domain.Organization" table="4a_org">
+		<id name="pk" type="java.lang.Long">
+			<column name="org_id" />
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="org_name" length="16" />
+		</property>
+		<property name="code" type="java.lang.String">
+			<column name="org_code" length="16" />
+		</property>
+		<property name="type" type="java.lang.Integer">
+			<column name="org_type" length="1" />
+		</property>
+		<property name="available" type="java.lang.Boolean">
+			<column name="available" not-null="false" length="1" />
+		</property>
+		<many-to-one name="parent" column="p_id"
+			class="com.cntest.foura.domain.Organization" fetch="join" />
+			
+		<many-to-one name="schooltype" column="schooltypeid"
+			class="com.cntest.fxpt.domain.SchoolType" fetch="join" />
+			
+		<many-to-one name="schoolSegment" column="schoolsegmentid"
+			class="com.cntest.fxpt.domain.SchoolSegment" fetch="join" />
+	</class>
+</hibernate-mapping>

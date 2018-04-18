@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+ 	<class name="com.cntest.fxpt.bi.domain.BiTokens" table="tokens_bi">
+ 		<id name="id" type="java.lang.Integer">
+ 			<column name="id" />
+ 			<generator class="increment" />
+ 		</id>
+ 		<property name="username" type="java.lang.String">
+ 			<column name="username"/>
+ 		</property>
+ 		<property name="token" type="java.lang.String">
+ 			<column name="token"/>
+ 		</property>
+ 		<property name="url" type="java.lang.String">
+ 			<column name="url"/>
+ 		</property>
+ 		<property name="created" type="java.util.Date">
+ 			<column name="created"/>
+ 		</property>
+ 	</class>
+ </hibernate-mapping>

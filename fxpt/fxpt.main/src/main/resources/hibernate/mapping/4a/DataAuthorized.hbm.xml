@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.cntest.foura.domain.DataAuthorized" table="4a_data_authorized">
+		<id name="pk" type="java.lang.Long">
+			<column name="authorized_id" />
+			<generator class="native" />
+		</id>
+		<property name="target" type="java.lang.String">
+			<column name="target" not-null="true" />
+		</property>
+		<property name="targetPk" type="java.lang.Long">
+			<column name="target_id" not-null="true" />
+		</property>
+		<property name="fromTable" type="java.lang.String">
+			<column name="data_from_table" not-null="true" />
+		</property>			
+		<property name="fromPk" type="java.lang.Long">
+			<column name="data_from_id" not-null="true" />
+		</property>		
+
+		<property name="permissionName" type="java.lang.String">
+			<column name="permission_name" not-null="true" />
+		</property>
+ 		<property name="permissionValue" type="java.lang.String">
+ 			<column name="permission_value" not-null="true" />
+ 		</property>		
+
+		<many-to-one name="permission" class="com.cntest.foura.domain.DataPermission" fetch="join" lazy="false" >
+			<column name="data_permission_id" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

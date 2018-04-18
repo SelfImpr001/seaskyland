@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/jee 
+            http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<!-- SessionFactory -->
+	
+	<!-- <aop:aspectj-autoproxy expose-proxy="true" /> <tx:annotation-driven 
+		transaction-manager="transactionManager" /> -->
+	<bean id="kntransactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:advice id="kntxAdvice" transaction-manager="kntransactionManager">
+		<tx:attributes>
+			<tx:method name="*create*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*save*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*add*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*update*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*delete*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*import*" read-only="false" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="*" read-only="true" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="knservicePoint"
+			expression="execution(* com.cntest.fxpt.service..*.*(..))" />
+		<aop:advisor pointcut-ref="knservicePoint" advice-ref="kntxAdvice" />
+	</aop:config>
+</beans>

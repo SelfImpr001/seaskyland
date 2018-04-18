@@ -1,0 +1,18 @@
+﻿.editTable {
+	
+}
+
+.editTable td{
+	text-align: left;
+}
+
+.editTable .template {
+	display: none;
+}
+
+.editTable .showEdit {
+}
+
+.editTable .showValue {
+	display: none;
+}

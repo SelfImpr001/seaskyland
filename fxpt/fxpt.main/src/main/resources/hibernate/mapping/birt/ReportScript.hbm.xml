@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.cntest.birt.domain.ReportScript" table="kn_birt_report_list">
+		<id name="pk" type="java.lang.Long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" not-null="true" />
+		</property>
+		<property name="source" type="java.lang.String">
+			<column name="source" not-null="true" />
+		</property>
+		<property name="directory" type="java.lang.String">
+			<column name="directory" not-null="true" />
+		</property>			
+		<property name="createdTime" type="java.util.Date">
+			<column name="createdTime" not-null="true" />
+		</property>		
+
+		<property name="remark" type="java.lang.String">
+			<column name="remark" not-null="true" />
+		</property>
+ 		<property name="suffix" type="java.lang.String">
+ 			<column name="suffix" not-null="true" />
+ 		</property>	
+ 		<property name="wordDocment" type="java.lang.String">
+ 			<column name="wordDocment" not-null="true" />
+ 		</property>
+ 		<property name="wordName" type="java.lang.String">
+ 			<column name="wordName" not-null="true" />
+ 		</property>	
+		<many-to-one name="orgBirt" class="com.cntest.birt.domain.OrgBirt" >
+ 			<column name="org_id" />
+ 		</many-to-one>
+	
+	</class>
+</hibernate-mapping>
